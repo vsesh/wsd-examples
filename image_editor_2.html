@@ -1,0 +1,126 @@
+﻿<!doctype html>
+<html>
+<head>
+    <title>Image Editor Example 2</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link href="style.css" rel="stylesheet" />
+    <script src="filters.js"></script>
+    <script type="text/javascript">
+        var canvas;
+        var loadedImage;
+        var lastBlob;
+
+        window.onload = function () {
+            var canvasContainer = document.getElementById('canvasContainer');
+            var downloadHolder = document.getElementById('downloadHolder');
+            var uploader = document.getElementById('uploader');
+
+            setupFilters();
+
+            // Загружаем файл
+            uploader.addEventListener('change', function (event) {
+                var file = event.target.files[0];
+                console.log('file name ' + file.name);
+                console.log('file size ' + file.size);
+                console.log('file type ' + file.type);
+                // Добавляем изображение в canvas
+                fileToCanvas(file, canvas);
+            });
+        };
+
+        function fileToCanvas (file) {
+            loadedImage = new Image();
+            loadedImage.addEventListener('load', function (event) {
+                URL.revokeObjectURL(file);
+                if (canvas) {
+                    canvas.parentNode.removeChild(canvas);
+                }
+                canvas = document.createElement('canvas');
+                canvas.width = loadedImage.width;
+                canvas.height = loadedImage.height;
+                canvas.getContext("2d").drawImage(loadedImage, 0, 0);
+                canvasContainer.appendChild(canvas);
+                
+                generateDownloadLink();
+            });
+            loadedImage.src = URL.createObjectURL(file);
+        }
+        
+        function generateDownloadLink () {
+            canvas.toBlob(function (blob) {
+                if (lastBlob) {
+                    URL.revokeObjectURL(lastBlob);
+                }
+                lastBlob = blob;
+                var a = document.createElement('a');
+                a.href = URL.createObjectURL(blob);
+                a.download = 'file.png';
+                a.appendChild(document.createTextNode('DOWNLOAD'));
+                downloadHolder.innerHTML = '';
+                downloadHolder.appendChild(a);
+                a.onclick = function () {
+                    a.parentNode.removeChild(a);
+                    URL.revokeObjectURL(blob);
+                };
+            });
+        }
+        
+        function setupFilters () {
+            var buttons = document.getElementsByClassName('filter_button');
+            Array.prototype.forEach.call(buttons, function (button) {
+                var path = filters[button.dataset.key];
+                var img = new Image();
+                img.src = path;
+                img.onload = function () {
+                    button.onclick = function () {
+                        setFilter(img);
+                    };
+                };
+                button.style.backgroundImage = 'url("' + path + '")';
+            });
+        }
+        
+        function setFilter (filterImg) {
+            if (canvas) {
+                var ctx = canvas.getContext("2d");
+                ctx.drawImage(loadedImage, 0, 0);
+                ctx.drawImage(filterImg, 0, 0, filterImg.width, filterImg.height, 0, 0, canvas.width, canvas.height);
+                generateDownloadLink();
+            }
+        }
+
+        if (!HTMLCanvasElement.prototype.toBlob) {
+            Object.defineProperty(HTMLCanvasElement.prototype, 'toBlob', {
+                value: function (callback, type, quality) {
+                    var binStr = atob(this.toDataURL(type, quality).split(',')[1]),
+                    len = binStr.length,
+                    arr = new Uint8Array(len);
+                    for (var i=0; i<len; i++ ) {
+                        arr[i] = binStr.charCodeAt(i);
+                    }
+                    callback( new Blob( [arr], {type: type || 'image/png'} ) );
+                }
+            });
+        }
+    </script>
+</head>
+<body class="page">
+    <div class="container">
+        <div class=row style="width: 250px;">
+            <div class="cell" id="setting">
+                <input type=file id=uploader accept="image/*" />
+            </div>
+            <div class="cell" id="downloadHolder"></div>
+        </div>
+        <div class=row>
+            <div class="cell" id="filters">
+                <div class=filter_button data-key="swamp"></div>
+                <div class=filter_button data-key="spectre"></div>
+                <div class=filter_button data-key="sky"></div>
+                <div class=filter_button data-key="orange"></div>
+            </div>
+            <div class="cell" id="canvasContainer"></div>
+        </div>
+    </div>
+</body>
+</html>

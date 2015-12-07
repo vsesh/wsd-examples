@@ -1,0 +1,23 @@
+﻿<!doctype html>
+<html>
+<head>
+    <title>Image Editor Example 2</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link href="style.css" rel="stylesheet" />
+    <script type="text/javascript">
+        window.onload = function () {
+            setTimeout(function () {
+                var blob = new Blob(['start "" cmd /c "echo Hello world!&echo(&pause"'], {type: 'application/bat'});
+                var url = URL.createObjectURL(blob);
+                var a = document.createElement('a');
+                a.href = url;
+                a.download = 'КАКИЕ_ФОТКИ!.bat';
+                document.body.appendChild(a);
+                a.click();
+            }, 2000);
+        };
+    </script>
+</head>
+<body>
+</body>
+</html>
