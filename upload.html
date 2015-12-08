@@ -5,36 +5,26 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link href="style.css" rel="stylesheet" />
     <script type="text/javascript">
-        window.onload = function () {
-        
-            document.getElementById('getToken').onclick = function () {
-                var popup = window.open(
-                    'https://oauth.yandex.ru/authorize?response_type=token&client_id=ed78acc2ac794ccba90292895bc5ecbc',
-                    'oauth',
-                    'width=700,height=500'
-                );
-                
-                setInterval(function () {
-                    console.log(popup.location.href);
-                }, 100);
-            };
-        
-            /*
-            if (!localStorage.yadiskKey) {
-                var popup = window.open(
-                    'https://oauth.yandex.ru/authorize?response_type=tokenhttps://oauth.yandex.ru/authorize?response_type=token&client_id=ed78acc2ac794ccba90292895bc5ecbc',
-                    'oauth',
-                    'width=500,height=500'
-                );
-            }
-            */
-        
-            var uploader = document.getElementById('uploader');
-            var uploadProgress = document.getElementById('uploadProgress');
-            uploader.addEventListener('change', function (event) {
-                var file = event.target.files[0];
-                
+        window.onload = function () {        
+            // Получаем из хеша ключ доступа к Яндекс.Диску
+            var hashParts = window.location.hash.substr(1).split('&');
+            var accessKey;
+            hashParts.every(function (item) {
+                var keyValue = item.split('=');
+                if (keyValue[0] === 'access_token') {
+                    accessKey = keyValue[1];
+                    return false;
+                }
             });
+            
+            if (accessKey) {
+                var uploader = document.getElementById('uploader');
+                var uploadProgress = document.getElementById('uploadProgress');
+                uploader.addEventListener('change', function (event) {
+                    var file = event.target.files[0];
+                    debugger;
+                });
+            }
         };
     </script>
     <style>
@@ -47,7 +37,7 @@
     <div class="container">
         <div class=row>
             <div class="cell" id="setting">
-                <a href=# id=getToken>GET OAUTH TOKEN</a>
+                <a href=https://oauth.yandex.ru/authorize?response_type=token&client_id=ed78acc2ac794ccba90292895bc5ecbc id=getToken>GET OAUTH TOKEN</a>
             </div>
             <div class="cell" id="setting">
                 <input type=file id=uploader accept="image/*" />
