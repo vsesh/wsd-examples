@@ -52,6 +52,9 @@
                         var p = Math.round((e.loaded / e.total) * 100);
                         uploadProgress.style.width = p + '%';
                     };
+                    uploadXHR.upload.onload = function () {
+                        alert('done!');
+                    };
                     uploadXHR.send(formData);
                 };
                 xhr.send(null);
