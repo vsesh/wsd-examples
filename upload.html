@@ -3,9 +3,11 @@
 <head>
     <title>Image Editor Example 2</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link href="https://yastatic.net/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet" />
     <link href="style.css" rel="stylesheet" />
     <script type="text/javascript">
-        window.onload = function () {        
+        window.onload = function () {
+            
             // Получаем из хеша ключ доступа к Яндекс.Диску
             var hashParts = window.location.hash.substr(1).split('&');
             var accessKey;
@@ -22,7 +24,11 @@
                 var uploadProgress = document.getElementById('uploadProgress');
                 uploader.addEventListener('change', function (event) {
                     var file = event.target.files[0];
-                    debugger;
+                    
+                    // Делаем запрос на получение ссылки на загрузку файла.
+                    
+                    
+                    // Непосредственно загружаем файл
                 });
             }
         };
@@ -33,14 +39,25 @@
         }
     </style>
 </head>
-<body class="page">
+<body>
     <div class="container">
-        <div class=row>
-            <div class="cell" id="setting">
-                <a href=https://oauth.yandex.ru/authorize?response_type=token&client_id=ed78acc2ac794ccba90292895bc5ecbc id=getToken>GET OAUTH TOKEN</a>
+        <div class="row">
+            <div class="col-md-12 jumbotron">
+                <h1>Upload file</h1>
             </div>
-            <div class="cell" id="setting">
-                <input type=file id=uploader accept="image/*" />
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb20" style="text-align: center;">
+                <a href=# id=getToken class="btn btn-primary">GET OAUTH TOKEN</a>
+            </div>
+            <div class="col-md-6 mb20"style="text-align: center;">
+                <input type=file id=uploader style="display: inline-block;" />
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
             </div>
         </div>
     </div>

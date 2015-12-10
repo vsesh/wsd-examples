@@ -4,6 +4,7 @@
     <title>Image Editor Example 2</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link href="style.css" rel="stylesheet" />
+    <link href="https://yastatic.net/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet" />
     <script src="filters.js"></script>
     <script type="text/javascript">
         var canvas;
@@ -11,7 +12,7 @@
         var lastBlob;
 
         window.onload = function () {
-            var canvasContainer = document.getElementById('canvasContainer');
+            var canvasHolder = document.getElementById('canvasHolder');
             var downloadHolder = document.getElementById('downloadHolder');
             var uploader = document.getElementById('uploader');
 
@@ -39,7 +40,7 @@
                 canvas.width = loadedImage.width;
                 canvas.height = loadedImage.height;
                 canvas.getContext("2d").drawImage(loadedImage, 0, 0);
-                canvasContainer.appendChild(canvas);
+                canvasHolder.appendChild(canvas);
                 
                 generateDownloadLink();
             });
@@ -56,6 +57,7 @@
                 a.href = URL.createObjectURL(blob);
                 a.download = 'file.png';
                 a.appendChild(document.createTextNode('DOWNLOAD'));
+                a.className = 'btn btn-primary';
                 downloadHolder.innerHTML = '';
                 downloadHolder.appendChild(a);
                 a.onclick = function () {
@@ -104,22 +106,40 @@
         }
     </script>
 </head>
-<body class="page">
+<body>
     <div class="container">
-        <div class=row style="width: 250px;">
-            <div class="cell" id="setting">
-                <input type=file id=uploader accept="image/*" />
+        <div class="row">
+            <div class="col-md-12 jumbotron">
+                <h1>Image editor</h1>
             </div>
-            <div class="cell" id="downloadHolder"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 mb20" style="text-align: center;">
+                <input type=file id=uploader accept="image/*" style="display: inline-block;" />
+            </div>
+            <div class="col-md-6 mb20" id="downloadHolder">
+                Здесь будет ссылка на скачивание файла
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                      <h3 class="panel-title">Filters</h3>
+                    </div>
+                    <div class="panel-body" id="filters">
+                        <div class=filter_button data-key="swamp"></div>
+                        <div class=filter_button data-key="spectre"></div>
+                        <div class=filter_button data-key="sky"></div>
+                        <div class=filter_button data-key="orange"></div>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class=row>
-            <div class="cell" id="filters">
-                <div class=filter_button data-key="swamp"></div>
-                <div class=filter_button data-key="spectre"></div>
-                <div class=filter_button data-key="sky"></div>
-                <div class=filter_button data-key="orange"></div>
+            <div class="col-md-12">
+                <div id="canvasHolder"></div>
             </div>
-            <div class="cell" id="canvasContainer"></div>
         </div>
     </div>
 </body>

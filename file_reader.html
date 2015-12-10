@@ -1,0 +1,58 @@
+﻿<!doctype html>
+<html>
+<head>
+    <title>File reader</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link href="https://yastatic.net/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet" />
+    <script type="text/javascript">
+        window.onload = function () {
+
+            var uploader = document.getElementById('uploader');
+            var uploadProgress = document.getElementById('uploadProgress');
+            uploader.addEventListener('change', function (event) {
+                var reader = new FileReader();
+                reader.onload = function (event) {
+                    document.getElementById('file_content').appendChild(
+                        document.createTextNode(event.target.result)
+                    );
+                };
+                reader.readAsText(event.target.files[0]);
+            });
+        };
+    </script>
+    <style>
+        .row, .cell {
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 jumbotron">
+                <h1>File reader</h1>
+            </div>
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                      <h3 class="panel-title">Select file</h3>
+                    </div>
+                    <div class="panel-body">
+                      <input type=file id=uploader class="file" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                          <h3 class="panel-title">File content</h3>
+                        </div>
+                        <div class="panel-body" id=file_content></div>
+                  </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
