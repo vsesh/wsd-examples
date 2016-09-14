@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <script type="text/javascript">
+        window.onload = function () {
+            if (!!window.SharedWorker) {
+                var myWorker = new SharedWorker("worker.js");
+                myWorker.port.onmessage = function(e) {
+                    document.body.textContent = e.data;
+                }
+            }
+        };
+    </script>
+</head>
+<body></body>
+</html>

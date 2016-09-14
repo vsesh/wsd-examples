@@ -31,7 +31,7 @@
         function fileToCanvas (file) {
             loadedImage = new Image();
             loadedImage.addEventListener('load', function (event) {
-                URL.revokeObjectURL(file);
+                URL.revokeObjectURL(loadedImage.src);
                 if (canvas) {
                     canvas.parentNode.removeChild(canvas);
                 }
