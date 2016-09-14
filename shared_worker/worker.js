@@ -1,21 +1,29 @@
+'use strict';
 
-var ports = [];
-self.addEventListener('connect', function(e) {
+let ports = [];
+self.addEventListener('connect', (e) => {
     setupInterval();
     ports.push(e.ports[0]);
 });
 
-var intervalID;
+let intervalID;
 function setupInterval () {
     if (!intervalID) {
-        intervalID = setInterval(function () {
-            sendToAll('>> ' + Math.random());
+        intervalID = setInterval(() => {
+            sendToAll(getRandColor());
         }, 1000);
     }
 }
 
 function sendToAll(message) {
-    ports.forEach(function (port) {
-        port.postMessage(message);
-    });
+    ports.forEach(port => port.postMessage(message));
+}
+
+function getRandColor() {
+    return [
+        '#',
+        Math.round(Math.random() * 255).toString(16),
+        Math.round(Math.random() * 255).toString(16),
+        Math.round(Math.random() * 255).toString(16)
+    ].join('');
 }

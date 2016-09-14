@@ -8,7 +8,7 @@
             if (!!window.SharedWorker) {
                 var myWorker = new SharedWorker("worker.js");
                 myWorker.port.onmessage = function(e) {
-                    document.body.textContent = e.data;
+                    document.body.style.backgroundColor = e.data;
                 }
             }
         };
