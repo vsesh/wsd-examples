@@ -8,7 +8,7 @@ self.addEventListener('connect', function(e) {
 var intervalID;
 function setupInterval () {
     if (!intervalID) {
-        setInterval(function () {
+        intervalID = setInterval(function () {
             sendToAll('>> ' + Math.random());
         }, 1000);
     }
