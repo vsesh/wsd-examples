@@ -1,9 +1,6 @@
 
 var ports = [];
 self.addEventListener('connect', function(e) {
-    console.log(
-        'new connection!'
-    );
     setupInterval();
     ports.push(e.ports[0]);
 });
